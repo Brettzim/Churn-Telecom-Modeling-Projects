@@ -36,7 +36,17 @@ This project uses the SyriaTel Customer Churn dataset. The dataset includes cust
 
 ## Data Cleaning
 
-The data here started out with no null values, and data types that aligned with the supposed data values. After some correlation analysis, we decided to remove all columns related to charge, as every charge column had an almost a 1:1 correlation with its minutes column. We also removed the “phone number” and “number vmail messages” columns. In order to turn the object columns into usable numerical data, we used a one hot encoder on the “Voice mail plan”, “International plan”, and "State" columns. We used a label encoder on the target column “Churn”.
- 
+The data here started out with no null values, and data types that aligned with the supposed data values. After some correlation analysis, we decided to remove all columns related to charge, as it was almost a 1:1 correlation with minutes. We also removed the “phone number” and “number vmail messages” columns. In order to turn the object columns into usable numerical data, we used a label encoder on the “Voice mail plan”, “International plan”, and “Churn” columns as they were binary values. We then One Hot Encoded the “State” column. Leaving us with uncorrelated numerical data.
 
- 
+## Analysis
+
+We first created our baseline model with a dummy regressor.  Due to our large target class imbalance, we set the dummy to use the stratified strategy.
+Since we planned on testing multiple models, we cut down the run time by creating functions that fit a model in a pipeline, and ran it giving us the train and test metrics and scores. The metrics we focused on were maximizing the Recall and F1 scores. 
+
+Our first simple model was a Logistic Regression model. It returned decent scores, but its main purpose was to be compared to other models we were more confident could end up being our final choice. So, we moved on to a Decision Tree. Tweaking the hyper-parameters on that led to some high scoring metrics. We chose them by agreeing to keep the max depth and sample splitting low, and then finding which values worked best. Our F1 and Recall scores were improving, showing that we were on the right path to making accurate predictions with our models.  With this encouragement, we then moved on to a Random Forest Classifier. Not getting the precise results we wanted, we plugged the Random Forest into a Grid Search to find the best parameters. This technique proved successful, yet again, bringing our Test F1 and Recall scores to their highest levels yet. However, we wanted to combine the best attributes of all of the models into one, and this is where stacking comes in.
+
+Stacking is the best approach because it combines the results of multiple models being run concurrently and feeds those results into the next set of models which, in turn feed into the final Logistic Regression model. This technique produced our best F1 and Recall scores, making it the final predictor.
+
+## Conclusion
+
+When creating predictive machine learning models, being experimental with the models can produce results approaching absolute certainty. Our iterative process brought us to a complex stacking algorithm that produced the best predictive results on whether a SyriaTel customer will churn or not.  
