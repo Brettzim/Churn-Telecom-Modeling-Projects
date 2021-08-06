@@ -1,5 +1,5 @@
 # Churn Telecom Modeling Projects
-![SyriaTel_logo](./picture/SyriaTel_logo.jpeg)
+![SyriaTel_logo](./Pictures/Syriatel_Logo.png)
 
 Phase 3 Flatiron project developing ML models and predicts for Syria Tel
 
